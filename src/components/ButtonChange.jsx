@@ -14,16 +14,17 @@ class ButtonChange extends Component {
   handleClick() {
     const { colors } = this.state;
     const { dispatch } = this.props;
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    if (this.state.bgColor === "green") {
-      this.setState({ bgColor: "blue" });
+    let color = ''
+    if (this.state.bgColor === "blue") {
+      color = "green";
     } else {
-      this.setState({ bgColor: color });
+      color = colors[Math.floor(Math.random() * colors.length)];
     }
+    this.setState({ bgColor: color });
     if (this.props.renderedColor) {
       var allColors = this.props.renderedColor;
     } else {
-      var allColors = [];
+       allColors = [];
     }
     var joined = allColors.concat(color);
     dispatch(randomColorActions.storeButtonColors(joined));

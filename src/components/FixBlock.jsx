@@ -12,7 +12,7 @@ class FixBlock extends Component {
     return (
       <div className="block">
       <div className="fix-block-size">
-        <h1>change the screen to view the changes</h1>
+        <h1>change the screen size to view the changes</h1>
       </div>
     </div>
     )
