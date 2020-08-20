@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import { randomColorActions } from "../actions/RandomColorActions";
 
 class ButtonChange extends Component {
@@ -8,21 +8,25 @@ class ButtonChange extends Component {
     this.state = {
       bgColor: "",
       colors: ["red", "blue", "green", "black", "orange"],
-      renderedColor: []
+      renderedColor: [],
     };
   }
   handleClick() {
     const { colors } = this.state;
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     const color = colors[Math.floor(Math.random() * colors.length)];
     if (this.state.bgColor === "green") {
       this.setState({ bgColor: "blue" });
     } else {
       this.setState({ bgColor: color });
     }
-     var joined = this.props.renderedColor.concat(color)
-    debugger
-    dispatch(randomColorActions.storeButtonColors(joined))
+    if (this.props.renderedColor) {
+      var allColors = this.props.renderedColor;
+    } else {
+      var allColors = [];
+    }
+    var joined = allColors.concat(color);
+    dispatch(randomColorActions.storeButtonColors(joined));
   }
 
   componentDidMount() {
@@ -30,7 +34,7 @@ class ButtonChange extends Component {
   }
 
   render() {
-    const {renderedColor} = this.props
+    const { renderedColor } = this.props;
     return (
       <div>
         <div>
@@ -42,27 +46,27 @@ class ButtonChange extends Component {
           >
             Change
           </button>
-          { 
-            renderedColor.empty === false ?
-            renderedColor.map((col, k) => {
-              return(
-                <div> <h2 style = {{color: col, float: "left"}}>{k > 0 ? ', ' :''}{col}</h2></div>
-              
-              )
-            })
-            : ''
-          }
+          {renderedColor.length > 0
+            ? renderedColor.map((col, k) => {
+                return (
+                  <div>
+                    {" "}
+                    <h2 style={{ color: col, float: "left" }}>
+                      {k > 0 ? ", " : ""}
+                      {col}
+                    </h2>
+                  </div>
+                );
+              })
+            : ""}
         </div>
       </div>
     );
   }
 }
 function mapStateToProps(state) {
-  debugger
-  const  renderedColor = state.buttonChange.buttonColors
-  return { renderedColor }
+  const renderedColor = state.buttonChange.buttonColors;
+  return { renderedColor };
 }
 
-// export default ButtonChange
-export default  connect(mapStateToProps)(ButtonChange)
-
+export default connect(mapStateToProps)(ButtonChange);
